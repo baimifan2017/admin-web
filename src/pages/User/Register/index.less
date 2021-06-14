@@ -1,0 +1,22 @@
+@import '../../../global.less';
+
+
+
+.container {
+  width: 1200px;
+  display: block;
+  margin: 0 auto;
+  padding: 0 0 24px 0;
+  background: white;
+  .init-body();
+
+  :global {
+    textarea#validate_other_description {
+      width: 91%;
+    }
+
+    .ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item {
+      width: 91%;
+    }
+  }
+}

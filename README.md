@@ -8,6 +8,9 @@ Install `node_modules`:
 
 ```bash
 npm install
+
+yarn add @umijs/preset-ui -D
+
 ```
 
 or

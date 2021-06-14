@@ -44,6 +44,10 @@ const errorHandler = (error: { response: Response }): Response => {
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
+  // headers: { 'Content-Type': 'multipart/form-data' },
+  headers: { 'Content-Type': 'application/json' },
+  requestType: 'json', // default
+  parseResponse: true, // default
 });
 
 export default request;

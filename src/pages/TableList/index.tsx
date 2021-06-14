@@ -105,8 +105,7 @@ const TableList: React.FC = () => {
       tip: '规则名称是唯一的 key',
       render: (dom, entity) => {
         return (
-          <a
-            onClick={() => {
+          <a onClick={() => {
               setCurrentRow(entity);
               setShowDetail(true);
             }}

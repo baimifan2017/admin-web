@@ -15,6 +15,11 @@
         ],
       },
       {
+        name: 'register',
+        path: '/register',
+        component: './User/Register',
+      },
+      {
         path: '/',
         component: '../layouts/SecurityLayout',
         routes: [
@@ -65,8 +70,8 @@
                     component: './UserConfig/UserApprove'
                   },
                   {
-                    path:'/config/model-design',
-                    name:'表单设计',
+                    path: '/config/model-design',
+                    name: '表单设计',
                     component: './UserConfig/ModelDesign'
                   }
                 ]

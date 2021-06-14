@@ -28,3 +28,9 @@ export type ConnectState = {
 export type Route = {
   routes?: Route[];
 } & MenuDataItem;
+
+export type RegisterState = {
+  global: GlobalModelState;
+  loading: Loading;
+  register: ProSettings;
+};

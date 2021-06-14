@@ -3,6 +3,7 @@ import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+import {resolve} from "path";
 
 const { REACT_APP_ENV } = process.env;
 
@@ -24,6 +25,12 @@ export default defineConfig({
   },
   dynamicImport: {
     loading: '@/components/PageLoading/index',
+  },
+  alias: {
+    '@': resolve(__dirname, './src'),
+    components: resolve(__dirname, './src/components'),
+    models: resolve(__dirname, './src/models'),
+    utils: resolve(__dirname, './src/utils'),
   },
   targets: {
     ie: 11,
