@@ -1,0 +1,34 @@
+.container{
+  height:100%;
+  width:auto;
+  position:relative;
+  background: #f0f2f5;
+  overflow:hidden;
+
+  :global{
+    .leftTree{
+      .card();
+      border-right: 3px solid #f0f2f5;
+      .operate {
+        opacity: 0;
+        &:hover{
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .rightForm{
+     .card();
+      min-height: 500px;
+    }
+  }
+}
+
+
+.card(){
+  position: relative;
+  width: 100%;
+  display: block;
+  background: white;
+  padding:12px 12px !important;
+}
