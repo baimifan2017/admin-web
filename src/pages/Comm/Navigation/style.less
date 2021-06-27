@@ -1,0 +1,29 @@
+.container{
+  height:100%;
+  width:auto;
+  position:relative;
+  overflow:hidden;
+  :global{
+
+    .tree {
+      .card();
+      padding:12px 8px !important;
+    }
+    .form{
+      .card();
+      padding: 12px;
+    }
+    .item{
+      .card()
+    }
+  }
+}
+
+.card(){
+  position: relative;
+  width: 100%;
+  display: block;
+  background: white;
+  min-height: 550px;
+  padding:12px 0px;
+}

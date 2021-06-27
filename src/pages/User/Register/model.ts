@@ -1,8 +1,7 @@
 // @ts-ignore
-import { Effect, history } from 'umi';
-import { message } from 'antd';
-import { register } from './service';
-import queryString, { StringifyOptions } from 'querystring';
+import {Effect, history} from 'umi';
+import {message} from 'antd';
+import {register} from './service';
 
 export type RegisterModelType = {
   namespace: 'register';
@@ -10,7 +9,7 @@ export type RegisterModelType = {
   subscriptions: {};
   effects: {
     save: Effect;
-    getDetail: Effect;
+    findOneById: Effect;
   };
 };
 
@@ -23,9 +22,15 @@ const Register: RegisterModelType = {
   subscriptions: {
     setup({ dispatch, history }: any) {
       // 这里的方法名可以随便命名，当监听有变化的时候就会依次执行这的变化,这里的dispatch和history和之前说的是一样的
+
+
+      const { query } = history?.location;
       // @ts-ignore
-      const { id } = queryString(location.href);
-      if (id) {
+      if (query && query.id) {
+        dispatch({
+          type:'fineById',
+          payload:{id:query.id}
+        })
       }
     },
   },
@@ -39,7 +44,7 @@ const Register: RegisterModelType = {
         message.error(msg);
       }
     },
-    *getDetail({ payload }, { call }) {
+    *findOneById({ payload }, { call }) {
       // const { success, msg } = yield call(get);
     },
   },

@@ -5,9 +5,10 @@
 
 import React from 'react';
 import SearchTree from "./MyTree";
-import {Button, Popover} from "antd";
+import {Button, Popconfirm, Popover} from "antd";
 import ProForm from '@ant-design/pro-form';
 import {IProFormText} from "@/components/FormItem";
+import {MinusCircleOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
 export interface RightFormProps {
   handleAdd?: () => void,
@@ -71,12 +72,59 @@ const RightForm: React.FC<RightFormProps> = (props) => {
     </ProForm.Group>
   </ProForm>
 
+  const renderExtra = (row: { title: {} | null | undefined; children: any; key: any; }): any => {
+
+    const commStyle = {
+      fontSize: 12,
+      cursor: 'pointer',
+      margin: '0 3px'
+    }
+
+    const popElement = <ProForm
+      onFinish={async (values) => {
+        await mySave(values, row)
+      }}
+    >
+      <ProForm.Group>
+        <IProFormText
+          width='small'
+          name="orgName"
+          label="组织机构名称"
+          required
+        />
+        <IProFormText
+          width='small'
+          name="orgCode"
+          label="组织机构代码"
+          required
+        />
+      </ProForm.Group>
+    </ProForm>
+    return [
+      <Popover title='新增子节点'
+               key='add'
+               content={popElement}
+               trigger='click'>
+        <PlusCircleOutlined style={{...commStyle, color: 'red'}}/>
+      </Popover>,
+      <Popconfirm title="确定删除？删除后不可恢复"
+                  key='del'
+                  onConfirm={() => myDel(row)}
+                  okText="确认" cancelText="取消">
+        <MinusCircleOutlined style={{...commStyle}}/>
+      </Popconfirm>
+    ]
+
+  };
+
+
   const {handleAdd} = props;
   const treeProps = {
     title: "orgName",
     myKey: 'id',
     handleSave: mySave,
     handleDel: myDel,
+    renderExtra: renderExtra,
     handleClick: handleSelect,
     header: {
       right: <Popover content={popElement}
