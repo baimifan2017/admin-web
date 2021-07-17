@@ -18,11 +18,12 @@ export interface RightFormProps {
   handleDel: (v: any) => void,
   url: string,
   myRef: React.Ref<any>,
+  loading: boolean
 }
 
 const RightForm: React.FC<RightFormProps> = (props) => {
 
-  const {url, handleSelect, myRef, handleSave, handleDel} = props;
+  const {url, handleSelect, myRef, handleSave, handleDel, loading} = props;
 
   const popForm = <ProForm.Group>
     <IProFormText
@@ -53,6 +54,11 @@ const RightForm: React.FC<RightFormProps> = (props) => {
           handleSave(values, row)
         }
       }}
+      submitter={{
+        submitButtonProps: {
+          loading: loading,
+        },
+      }}
     >
       {popForm}
     </ProForm>
@@ -78,14 +84,20 @@ const RightForm: React.FC<RightFormProps> = (props) => {
         handleSave(values)
       }
     }}
+
+    submitter={{
+      submitButtonProps: {
+        loading: loading,
+      },
+    }}
   >
     {popForm}
   </ProForm>
 
   const treeProps = {
-    title: "orgName",
+    title: "name",
     myKey: 'id',
-    handleClick: handleSelect,
+    onSelect: handleSelect,
     // 渲染树状节点上的操作
     renderExtra: renderExtra,
     header: {
@@ -96,10 +108,7 @@ const RightForm: React.FC<RightFormProps> = (props) => {
     },
     ref: myRef,
     store: {
-      url,
-      option:{
-        method:'POST'
-      }
+      url
     }
   }
   return <>

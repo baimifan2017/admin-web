@@ -1,0 +1,10 @@
+.container :global .header {
+  height: 55px;
+}
+.container :global .body {
+  height: calc(100vh - 55px);
+}
+.container :global .body .right {
+  height: 100vh;
+}
+/*# sourceMappingURL=style.css.map */

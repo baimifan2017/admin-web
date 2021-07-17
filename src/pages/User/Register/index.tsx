@@ -1,7 +1,6 @@
 // @ts-ignore
 import React, {useState} from 'react';
 import ProForm, {
-  ProFormDigit,
   ProFormGroup,
   ProFormRadio,
   ProFormSelect,
@@ -11,7 +10,7 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
 import {get} from 'lodash';
-import {IProFormText} from "@/components/FormItem";
+import {IProFormDigit, IProFormText} from "@/components/FormItem";
 import styles from './index.less';
 import {Dispatch} from "@@/plugin-dva/connect";
 import {connect} from "umi";
@@ -93,11 +92,11 @@ const Register: React.FC<RegisterProps> = (props) => {
             initialValue={get(entity, 'phone')}
             name="phone" label="联系电话"
             required/>
-          <ProFormText
+          <IProFormText
             name="address"
             initialValue={get(entity, 'address')}
             label="联系地址"/>
-          <ProFormDigit
+          <IProFormDigit
             label="年龄"
             name="age"
             initialValue={get(entity, 'age')}
@@ -134,11 +133,11 @@ const Register: React.FC<RegisterProps> = (props) => {
           name="description" label="工作经历介绍"
           initialValue={get(entity, 'description')}/>
         <ProFormGroup label="支付信息">
-          <ProFormText
+          <IProFormText
             name="idNumber" label="身份证号" rules={[requiredProps]}/>
-          <ProFormText
+          <IProFormText
             name="bankAccountName" label="银行户名称" rules={[requiredProps]}/>
-          <ProFormText
+          <IProFormText
             name="bankAccountNumber" label="银行卡号" rules={[requiredProps]}/>
         </ProFormGroup>
 

@@ -49,9 +49,12 @@ const request = extend({
   // @ts-ignore
   headers: {
     'Accept': 'application/json',
+    // "Content-Type": "multipart/form-data",
     'Content-Type': 'application/json',
     'token':sessionStorage.getItem('token')
   },
+  timeout:1000,
+  responseType:'json',
   requestType: 'json', // default
   parseResponse: true, // default
 });

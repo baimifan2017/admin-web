@@ -56,15 +56,15 @@ const generateList = (data: string | any[], myKey = 'key', myTitle: string) => {
 // generateList(gData);
 
 // @ts-ignore
-const getParentKey = (key: any, tree: string | any[],myKey) => {
+const getParentKey = (key: any, tree: string | any[], myKey) => {
   let parentKey;
   for (let i = 0; i < tree.length; i++) {
     const node = tree[i];
     if (node.children) {
       if (node.children.some((item: { key: any; }) => item[myKey] === key)) {
         parentKey = node[myKey];
-      } else if (getParentKey(key, node.children,myKey)) {
-        parentKey = getParentKey(key, node.children,myKey);
+      } else if (getParentKey(key, node.children, myKey)) {
+        parentKey = getParentKey(key, node.children, myKey);
       }
     }
   }
@@ -112,15 +112,15 @@ class SearchTree extends React.Component<TreeProps> {
       request(url, {
         method: get(option, 'method', 'get')
       }).then(r => {
-        const {success, data, msg} = r
-        if (success) {
+        const {ok, success, data, statusText, msg} = r
+        if (ok | success) {
           this.setState({
             dataSource: data
           })
           const {myKey, title} = this.props
           generateList(data, myKey, title);
         } else {
-          message.error(msg, 3)
+          message.error(statusText | msg, 3)
         }
       })
     }
@@ -174,13 +174,13 @@ class SearchTree extends React.Component<TreeProps> {
         // @ts-ignore
         const myTitle =
           index > -1 ? (
-            <span style={{width: '100%'}}>
+            <span style={{width: '100%'}} onClick={() => onSelect(item)}>
               {beforeStr}
               <span className="site-tree-search-value">{searchValue}</span>
               {afterStr}
 
               <span style={{marginLeft: 12}} className='operate'>
-                {renderExtra  && renderExtra(item)}
+                {renderExtra && renderExtra(item)}
               </span>
             </span>
           ) : (
@@ -214,7 +214,7 @@ class SearchTree extends React.Component<TreeProps> {
           autoExpandParent={autoExpandParent}
           // treeData={loop(gData)}
           defaultExpandAll={true}
-          onSelect={onSelect}
+          // onSelect={onSelect}
           treeData={loop(dataSource)}
         />
       </div>

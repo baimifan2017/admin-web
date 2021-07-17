@@ -1,27 +1,34 @@
 // @ts-ignore
 import {Effect, history, Reducer} from 'umi';
-import {save, deleteById} from './service';
+import {deleteById, delPowerBtn, findOneById, save, savePower} from './service';
 import {myMessage} from "@/utils/myUtils";
+import {get, omit} from 'lodash';
 
-export type OrgModelType = {
-  namespace: 'navigation';
-  state: any;
+
+export type NavigationModelType = {
+  namespace: string;
+  state: {
+    entity: any,
+    powerBtnArr: any[]
+  };
   subscriptions: {};
   effects: {
     save: Effect;
     deleteById: Effect,
     findOneById: Effect;
+    savePower: Effect;
+    delPowerBtn: Effect;
   };
   reducers: {
     updateState: Reducer,
   }
 };
 
-const Register: OrgModelType = {
+const Navigation: NavigationModelType = {
   namespace: 'navigation',
   state: {
-    entity: undefined,
-    powerBtnArr:[],
+    entity: {},
+    powerBtnArr: [],
   },
   // subscriptions
   subscriptions: {
@@ -45,9 +52,9 @@ const Register: OrgModelType = {
       const {success, data} = re;
       if (success) {
         yield put({
-          type: 'org',
+          type: 'updateState',
           payload: {
-            entity: data
+            entity: omit(data, 'powerBtn')
           }
         })
       }
@@ -57,12 +64,46 @@ const Register: OrgModelType = {
       }
     },
 
+    * savePower({payload, callback}: any, {put, select, call}: any) {
+      // @ts-ignore
+      const re = yield call(savePower, payload);
+      if (re.success) {
+        const {entity} = yield select((_: {
+          navigation: any
+        }) => _.navigation)
+        yield put({
+          type: 'findOneById',
+          payload: {id: entity.id}
+        })
+      }
+      myMessage(re);
+      if (callback && callback instanceof Function) {
+        callback(re)
+      }
+    },
+
+    * delPowerBtn({payload, callback}: any, {put, select, call}: any) {
+      const re = yield call(delPowerBtn, payload);
+      const {entity} = yield select((_: {
+        navigation: any
+      }) => _.navigation)
+      if (re.success) {
+        yield put({
+          type: 'findOneById',
+          payload: {id: entity.id}
+        })
+      }
+      myMessage(re);
+      if (callback && callback instanceof Function) {
+        callback(re)
+      }
+    },
 
     * deleteById({payload, callback}: any, {put, select, call}: any) {
       const re = yield call(deleteById, payload);
       if (re.success) {
         yield put({
-          type: 'org',
+          type: 'updateState',
           payload: {
             entity: {}
           }
@@ -73,8 +114,22 @@ const Register: OrgModelType = {
         callback(re)
       }
     },
-    * findOneById({payload}, {call}) {
-      // const { success, msg } = yield call(get);
+
+    * findOneById({payload, callback}, {call, put}) {
+      const re = yield call(findOneById, payload);
+      if (re && re.success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            entity: re.data,
+            powerBtnArr: get(re.data, 'powerBtn'),
+            showBlank: false,
+          }
+        })
+      }
+      if (callback && callback instanceof Function) {
+        callback(re)
+      }
     },
   },
 
@@ -88,4 +143,4 @@ const Register: OrgModelType = {
   }
 };
 
-export default Register;
+export default Navigation;

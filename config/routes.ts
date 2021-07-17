@@ -62,11 +62,11 @@ export default [
               },
               {
                 path: '/comm',
-                name: '基础配置',
+                name: 'basicConfig', //基础配置
                 routes: [
                   {
                     path: '/comm/approve',
-                    name: '流程模型',
+                    name: 'flowModel', //流程模型
                     component: './Comm/Approve/ApproveModel',
                   },
                   {
@@ -76,12 +76,11 @@ export default [
                     component: './Comm/EditorFlow',
                   },
                   {
-                    name: '页面配置',
+                    name: 'pageConfig', // 页面配置
                     icon: 'edit',
                     path: '/comm/navigation',
                     component: './Comm/Navigation',
                   },
-
                   {
                     name: '成功页',
                     icon: 'smile',
@@ -98,7 +97,7 @@ export default [
               },
               {
                 path: '/mainData',
-                name: '主数据',
+                name: 'mainData', //主数据
                 routes: [
                   {
                     path: '/mainData/user-approve',
@@ -115,7 +114,34 @@ export default [
                     name: '表单设计',
                     component: './MainData/ModelDesign',
                   },
+                  {
+                    path: '/mainData/supplier',
+                    name: 'supplier', // 供应商
+                    component: './MainData/Supplier',
+                  },
                 ],
+              },
+              {
+                path: '/purchase',
+                name: '采购管理',
+                routes: [
+                  {
+                    path: '/purchase/purchaseApply',
+                    name: '采购申请',
+                    component: './Purchase/PurchaseApply',
+                  },
+                  {
+                    // name: '采购申请-编辑',
+                    path: '/purchase/purchaseApply/edit',
+                    component: './Purchase/PurchaseApply/Edit',
+                  }
+                ],
+              },
+              {
+                name: '高级表单',
+                icon: 'smile',
+                path: '/formadvancedform',
+                component: './FormAdvancedForm',
               },
               {
                 component: './404',

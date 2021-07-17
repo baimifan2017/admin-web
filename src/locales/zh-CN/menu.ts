@@ -49,4 +49,12 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+
+  'menu.mainData': '主数据',
+  'menu.mainData.supplier': '供应商',
+
+  'menu.basicConfig': '基础配置',
+  'menu.basicConfig.flowModel': '流程模型',
+  'menu.basicConfig.pageConfig': '页面配置',
+
 };

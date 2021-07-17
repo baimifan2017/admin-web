@@ -17,7 +17,7 @@ export type OrgModelType = {
   }
 };
 
-const Register: OrgModelType = {
+const Org: OrgModelType = {
   namespace: 'org',
   state: {
     entity: undefined,
@@ -87,4 +87,4 @@ const Register: OrgModelType = {
   }
 };
 
-export default Register;
+export default Org;

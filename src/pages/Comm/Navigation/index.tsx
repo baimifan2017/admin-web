@@ -1,8 +1,9 @@
 // @ts-ignore
-import React, {Component} from 'react';
+import React, {Component, useRef} from 'react';
 import {connect, Dispatch} from "umi";
 import {PageContainer} from "@ant-design/pro-layout";
-import {Col, message, Row} from "antd";
+import type {FormInstance} from 'antd'
+import {Col, Row} from "antd";
 import cls from 'classnames';
 import Form from './components/Form';
 import LeftTree from './components/LeftTree';
@@ -19,31 +20,46 @@ type NavigationProps = {
 
 class Index extends Component <NavigationProps> {
   private readonly myRef: React.Ref<any>;
+  private readonly formRef: any;
 
   constructor(props: NavigationProps) {
     super(props);
     this.myRef = React.createRef();
+    this.formRef = React.createRef<FormInstance>()
   }
 
-  handleClick = (entity: any) => {
+  componentWillUnmount() {
     const {dispatch} = this.props;
-    if (dispatch) {
-      dispatch({
-        type: 'navigation/updateState',
-        payload: {
-          entity: null
-        }
-      })
-    }
-    waitTime(200).then(() => {
+    dispatch({
+      type: 'navigation/updateState',
+      payload: {
+        entity: null
+      }
+    })
+  }
+
+  handleSelect = (row: any) => {
+    const {dispatch} = this.props;
+    waitTime(100).then(() => {
       if (dispatch) {
         dispatch({
-          type: 'navigation/updateState',
+          type: 'navigation/findOneById',
           payload: {
-            entity,
-            showBlank: false
-          }
+            id: row.id
+          },
         })
+
+        if (this.formRef) {
+          this.formRef.current?.setFieldsValue({
+            id: row?.id,
+            name: row.name,
+            url: row.url,
+            ico: row.icon,
+            remark: row.remark
+          })
+
+          this.forceUpdate();
+        }
       }
     })
   }
@@ -52,21 +68,24 @@ class Index extends Component <NavigationProps> {
    * 新增功能权限按钮
    * @param v
    */
-  handleAddPowerBtn = (v: object) => {
-    debugger
-    const {dispatch, powerBtnArr}: any = this.props;
-    powerBtnArr.forEach((item: { powerCode: any; }) => {
-      // @ts-ignore
-      if (item.powerCode === v?.powerCode) {
-        message.warn('页面路径不能相同，请检查！', 3);
-        return;
-      }
-    })
-
-    powerBtnArr.push(v)
-    dispatch({
-      type: 'navigation/updateState',
-      payload: powerBtnArr,
+  handleSavePowerBtn = (v: object) => {
+    const {dispatch, entity}: any = this.props;
+    const params = {
+      myNavigationId: entity.id,
+      powerBtn: v
+    }
+    waitTime(150).then(() => {
+      dispatch({
+        type: 'navigation/savePower',
+        payload: {
+          ...params
+        },
+        callback: (res: any) => {
+          if (res) {
+            this.forceUpdate();
+          }
+        }
+      })
     })
   }
 
@@ -74,54 +93,76 @@ class Index extends Component <NavigationProps> {
    * 删除权限按钮
    * @param v
    */
-  handleDelPowerBtn = (v: object) => {
-    // const { dispatch, powerBtnArr } = this.props;
+  handleDelPowerBtn = (v: { id: any }) => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'navigation/delPowerBtn',
+      payload: {id: v.id}
+    })
   }
-
-  /**
-   * 权限按钮冻结、解冻
-   * @param v
-   */
-  handleFrozenBtn = (v: object) => {
-
-  };
 
   /**
    * 保存页面配置
    * @param v
    */
-  handleSave = (v: object) => {
-    const {dispatch, powerBtnArr}: any = this.props;
-    // @ts-ignore
-    v.powerBtn = powerBtnArr;
+  handleSave = (v: any, row?: any) => {
+    const {dispatch, powerBtnArr, entity}: any = this.props;
 
+    if (entity) {
+      v = {...entity, ...v}
+    }
+
+    if (powerBtnArr.length > 0) {
+      // @ts-ignore
+      v.powerBtn = powerBtnArr;
+    } else {
+      v.powerBtn = [];
+    }
+    if (row) {
+      v.pid = row.id
+    }
     dispatch({
       type: 'navigation/save',
       payload: v
     })
   }
 
-  handleDel = (v: object) => {
-    console.log(v)
+  handleDel = (v: any) => {
+    const {dispatch} = this.props
+    dispatch({
+      type: 'navigation/deleteById',
+      payload: {id: v.id},
+      callback: res => {
+        if (res.success && this.myRef) {
+          // @ts-ignore
+          this.myRef?.current.handleFindTree()
+        }
+      }
+    })
   };
 
   render() {
-    const {entity}: any = this.props;
+    const {loading, powerBtnArr}: any = this.props;
     const treeProps = {
-      handleSelect: this.handleClick,
+      handleSelect: this.handleSelect,
       handleDel: this.handleDel,
+      handleSave: this.handleSave,
       url: treeUrl,
-      myRef: this.myRef
+      myRef: this.myRef,
+      loading: loading
     }
 
     const formProps = {
       handleSave: this.handleSave,
-      id: entity?.id
+      formRef: this.formRef
     };
 
     const powerBtnProps = {
-      handleAddPowerBtn: this.handleAddPowerBtn
+      handleSavePowerBtn: this.handleSavePowerBtn,
+      powerBtnArr: powerBtnArr,
+      handleDelPowerBtn: this.handleDelPowerBtn
     };
+
     return (
       <PageContainer
       >
@@ -150,7 +191,8 @@ class Index extends Component <NavigationProps> {
 }
 
 export default connect(({navigation, loading}: any) => ({
-  entity: navigation?.entity,
-  powerBtnArr: navigation?.powerBtnArr,
+  entity: navigation.entity,
+  powerBtnArr: navigation.powerBtnArr,
+  navigation: navigation,
   loading: loading.effects['navigation/save']
 }))(Index);

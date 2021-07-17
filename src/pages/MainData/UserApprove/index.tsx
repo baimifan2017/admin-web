@@ -13,7 +13,6 @@ import {findByPage} from './service.ts';
 
 import {Action} from '../../../components/Action';
 
-
 type GithubIssueItem = {
   url: string;
   id: number;
@@ -83,6 +82,14 @@ class UserApprove extends React.Component<UserApproveProve> {
         title: '性别',
         dataIndex: 'sex',
         key: 'sex',
+        valueEnum: {
+          male: {
+            text: '男性',
+          },
+          female: {
+            text: '女性',
+          },
+        },
       },
       {
         title: '联系电话',

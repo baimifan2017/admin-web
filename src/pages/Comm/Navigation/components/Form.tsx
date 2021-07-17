@@ -2,45 +2,37 @@
 import React from 'react';
 import ProForm from '@ant-design/pro-form';
 import {IProFormSwitch, IProFormText, IProFormTextArea} from "@/components/FormItem";
-import {FooterToolbar} from "@ant-design/pro-layout";
-
-
-const waitTime = (time: number = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
 
 
 const layout = {
-  labelCol: { span: 24},
-  wrapperCol: { span: 24},
+  labelCol: {span: 24},
+  wrapperCol: {span: 24},
 };
 
 type IFormProps = {
-  handleSave:(v:object) => void
+  handleSave: (v: any) => void,
+  formRef?: any,
+  entity?: object,
 }
 
-export default (props:IFormProps) => {
+export default (props: IFormProps) => {
   return (
     <ProForm
-      submitter={{
-        render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
-      }}
+      // submitter={{
+      //   render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
+      // }}
       onFinish={async (values) => props.handleSave(values)}
       {...layout}
-      params={{}}
-      request={async () => {
-        await waitTime(100);
-        return {
-          name: '蚂蚁设计有限公司',
-          useMode: 'chapter',
-        };
-      }}
+
+      formRef={props.formRef}
     >
       <ProForm.Group>
+        <IProFormText
+          name="id"
+          label="id"
+          placeholder="id"
+          hidden
+        />
         <IProFormText
           name="name"
           label="导航名称"
@@ -67,14 +59,14 @@ export default (props:IFormProps) => {
           label="冻结"
           placeholder="请输入名称"
           fieldProps={{
-              size: 'small'
-            }}
+            size: 'small'
+          }}
         />
       </ProForm.Group>
       <IProFormTextArea
-        name="unusedMode"
-        label="合同约定失效效方式"
-        width= {undefined}
+        name="remark"
+        label="备注"
+        width={undefined}
       />
     </ProForm>
   );

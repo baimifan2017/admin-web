@@ -44,10 +44,11 @@ const Model: LoginModelType = {
       if (response.success) {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        sessionStorage.setItem('token', response.data.token)
-        message.success('🎉 🎉 🎉  登录成功！');
 
-        waitTime(1000).then(r => {
+        message.success('🎉 🎉 🎉  登录成功！');
+        sessionStorage.setItem('token', response.data.token)
+
+        waitTime(100).then(r => {
           let {redirect} = params as { redirect: string };
           if (redirect) {
             const redirectUrlParams = new URL(redirect);
@@ -66,6 +67,8 @@ const Model: LoginModelType = {
           }
           history.replace(redirect || '/');
         })
+      }else {
+        message.error(response.msg)
       }
     },
 
