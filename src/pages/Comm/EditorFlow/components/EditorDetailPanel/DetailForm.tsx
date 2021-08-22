@@ -60,6 +60,9 @@ class DetailForm extends React.Component<DetailFormProps> {
         <Item label="Label" name="label" {...inlineFormItemLayout}>
           <Input onBlur={this.handleInputBlur('label')} />
         </Item>
+        <Item label="审批页面" name="url" {...inlineFormItemLayout}>
+          <Input onBlur={this.handleInputBlur('url')} />
+        </Item>
       </Form>
     );
   };

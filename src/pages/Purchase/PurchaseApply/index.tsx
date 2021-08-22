@@ -1,15 +1,15 @@
-import {PlusOutlined} from '@ant-design/icons';
-import {Button, message} from 'antd';
-import React, {useRef, useState} from 'react';
-import {FormattedMessage,history } from 'umi';
-import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
-import type {ActionType, ProColumns} from '@ant-design/pro-table';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, message } from 'antd';
+import React, { useRef, useState } from 'react';
+import { FormattedMessage, history } from 'umi';
+import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 // import type {FormValueType} from './components/UpdateForm';
-import type {TableListItem} from './data.d';
-import {del, findByPage, save} from './service';
-import {Action} from "@/components/Action";
-import {column_status} from "@/utils/commColumn";
+import type { TableListItem } from './data.d';
+import { del, findByPage, save } from './service';
+import { Action } from '@/components/Action';
+import { column_status } from '@/utils/commColumn';
 
 /**
  * 添加节点
@@ -78,10 +78,10 @@ const handleRemove = async (selectedRows: TableListItem[]) => {
 
 const Supplier: React.FC = () => {
   const itemArr = [
-    {name: '详情', powerCode: 'detail'},
-    {name: '编辑', powerCode: 'edit'},
-    {name: '删除', powerCode: 'delete'},
-  ]
+    { name: '详情', powerCode: 'detail' },
+    { name: '编辑', powerCode: 'edit' },
+    { name: '提交审批', powerCode: 'approve' },
+  ];
 
   /** 新建窗口的弹窗 */
   const [modalVisible, handleModalVisible] = useState<boolean>(false);
@@ -92,25 +92,33 @@ const Supplier: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<TableListItem>();
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
 
+  /**
+   * 页面跳转
+   * @param currentRow
+   * @param op? detail/edit
+   */
+  const urlTo = (currentRow: TableListItem | undefined, op?: 'detail' | 'edit') => {
+    history.push(`/purchase/purchaseApply/edit?id=${currentRow?.id}&op=${op}`);
+  };
+
   const handleClick = (type: any, record: any) => {
     switch (type) {
       case 'detail':
-        setCurrentRow(record);
-        setShowDetail(true);
+        urlTo(record, 'detail');
         break;
       case 'edit':
-        setCurrentRow(record);
+        urlTo(record, 'edit');
         handleModalVisible(true);
         break;
-      case 'delete':
-        handleRemove([record]).then(r => {
+      case 'approve':
+        handleRemove([record]).then((r) => {
           if (r) {
-            actionRef.current?.reloadAndRest?.()
+            actionRef.current?.reloadAndRest?.();
           }
-        })
+        });
         break;
       default:
-        break
+        break;
     }
   };
 
@@ -138,18 +146,18 @@ const Supplier: React.FC = () => {
       title: '流程状态',
       dataIndex: 'status',
       valueType: 'select',
-      valueEnum: column_status.valueEnum
+      valueEnum: column_status.valueEnum,
     },
     {
       title: '计划使用日期',
       dataIndex: 'planUseDate',
-      valueType: 'dateRange',
+      valueType: 'date',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作"/>,
+      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => <Action onClick={handleClick} itemArr={itemArr} record={record}/>
+      render: (_, record) => <Action onClick={handleClick} itemArr={itemArr} record={record} />,
     },
   ];
 
@@ -157,7 +165,7 @@ const Supplier: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem>
-        headerTitle='物料采购汇总表'
+        headerTitle="物料采购汇总表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -168,16 +176,15 @@ const Supplier: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              history.push(`/purchase/purchaseApply/edit?id=${currentRow?.id}`)
+              urlTo(currentRow);
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined/>
-            <FormattedMessage id="pages.searchTable.new" defaultMessage="新建"/>
+            <PlusOutlined />
+            <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
           </Button>,
         ]}
-        request={
-          (params, sorter, filter) => findByPage({...params, sorter, filter})}
+        request={(params, sorter, filter) => findByPage({ ...params, sorter, filter })}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -189,9 +196,9 @@ const Supplier: React.FC = () => {
         <FooterToolbar
           extra={
             <div>
-              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="已选择"/>{' '}
-              <a style={{fontWeight: 600}}>{selectedRowsState.length}</a>{' '}
-              <FormattedMessage id="pages.searchTable.item" defaultMessage="项"/>
+              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="已选择" />{' '}
+              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
+              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
             </div>
           }
         >

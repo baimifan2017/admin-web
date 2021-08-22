@@ -52,9 +52,20 @@ export default {
 
   'menu.mainData': '主数据',
   'menu.mainData.supplier': '供应商',
+  'menu.mainData.userInfo': '用户信息',
+  'menu.mainData.orgDesign': '组织机构设计',
+  'menu.mainData.pageDesign': '页面设计',
 
   'menu.basicConfig': '基础配置',
   'menu.basicConfig.flowModel': '流程模型',
+  'menu.basicConfig.editFlow': '流程编辑器',
   'menu.basicConfig.pageConfig': '页面配置',
+  'menu.basicConfig.dynamicPage': '动态页面',
+  'menu.basicConfig.success': '成功页面',
+  'menu.basicConfig.fail': '失败页',
 
+  'menu.purchaseManager': '采购管理',
+  'menu.purchaseManager.purchaseApply': '采购申请',
+
+  'menu.advanceForm': '高级表单',
 };

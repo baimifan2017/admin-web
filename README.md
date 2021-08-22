@@ -2,9 +2,16 @@
 
 This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
-## Environment Prepare
+## 开发环境准备
 
-Install `node_modules`:
+- 更改 npm 淘宝源
+
+```js
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+```
+
+- Install `node_modules`:
 
 ```bash
 npm install

@@ -70,7 +70,7 @@ export default [
                     component: './Comm/Approve/ApproveModel',
                   },
                   {
-                    name: '流程编辑器',
+                    name: 'editFlow', // 流程编辑器
                     icon: 'smile',
                     path: '/comm/editorFlow',
                     component: './Comm/EditorFlow',
@@ -81,14 +81,21 @@ export default [
                     path: '/comm/navigation',
                     component: './Comm/Navigation',
                   },
+
+                  // {
+                  //   name: 'dynamicPage', //  动态页面
+                  //   icon: 'smile',
+                  //   path: '/comm/dynamicPage',
+                  //   component: './Comm/DynamicPage',
+                  // },
                   {
-                    name: '成功页',
+                    name: 'success',
                     icon: 'smile',
                     path: '/comm/resultSuccess',
                     component: './Comm/Results/ResultSuccess',
                   },
                   {
-                    name: '失败页',
+                    name: 'fail', //  失败页面
                     icon: 'smile',
                     path: '/comm/resultFail',
                     component: './Comm/Results/ResultFail',
@@ -101,17 +108,17 @@ export default [
                 routes: [
                   {
                     path: '/mainData/user-approve',
-                    name: '用户信息',
+                    name: 'userInfo', // 用户信息
                     component: './MainData/UserApprove',
                   },
                   {
                     path: '/mainData/org',
-                    name: '组织机构设计',
+                    name: 'orgDesign', // 组织结构
                     component: './MainData/Org',
                   },
                   {
                     path: '/mainData/model-design',
-                    name: '表单设计',
+                    name: 'pageDesign', // 页面设计
                     component: './MainData/ModelDesign',
                   },
                   {
@@ -123,22 +130,22 @@ export default [
               },
               {
                 path: '/purchase',
-                name: '采购管理',
+                name: 'purchaseManager', // 采购管理
                 routes: [
                   {
                     path: '/purchase/purchaseApply',
-                    name: '采购申请',
+                    name: 'purchaseApply', // 采购申请
                     component: './Purchase/PurchaseApply',
                   },
                   {
                     // name: '采购申请-编辑',
                     path: '/purchase/purchaseApply/edit',
                     component: './Purchase/PurchaseApply/Edit',
-                  }
+                  },
                 ],
               },
               {
-                name: '高级表单',
+                name: 'advanceForm', // 高级表单
                 icon: 'smile',
                 path: '/formadvancedform',
                 component: './FormAdvancedForm',

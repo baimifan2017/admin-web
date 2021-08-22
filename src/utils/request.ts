@@ -1,6 +1,7 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import {extend} from 'umi-request';
-import {notification} from 'antd';
+import { extend } from 'umi-request';
+import { notification } from 'antd';
+import { history } from 'umi';
 
 const codeMessage: { [status: number]: string } = {
   200: '服务器成功返回请求的数据。',
@@ -22,11 +23,13 @@ const codeMessage: { [status: number]: string } = {
 
 /** 异常处理程序 */
 const errorHandler = (error: { response: Response }): Response => {
-  const {response} = error;
+  const { response } = error;
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const {status, url} = response;
-
+    const { status, url } = response;
+    if (status == 401) {
+      history.push('/user/login');
+    }
     notification.error({
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
@@ -40,6 +43,10 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
+const getToken = () => {
+  // @ts-ignore
+  return global.token || sessionStorage.getItem('token');
+};
 
 /** 配置request请求时的默认参数 */
 const request = extend({
@@ -48,13 +55,14 @@ const request = extend({
   // headers: { 'Content-Type': 'multipart/form-data' },
   // @ts-ignore
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     // "Content-Type": "multipart/form-data",
     'Content-Type': 'application/json',
-    'token':sessionStorage.getItem('token')
+    // 'token':  sessionStorage.getItem('token')
+    token: getToken(),
   },
-  timeout:1000,
-  responseType:'json',
+  timeout: 1000,
+  responseType: 'json',
   requestType: 'json', // default
   parseResponse: true, // default
 });

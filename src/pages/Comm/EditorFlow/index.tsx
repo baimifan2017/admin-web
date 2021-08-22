@@ -1,8 +1,10 @@
+// @ts-ignore
+import React from 'react';
+
 import { Col, Row } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
 
 import { PageContainer } from '@ant-design/pro-layout';
-import React from 'react';
 import { formatMessage } from 'umi';
 import EditorMinimap from './components/EditorMinimap';
 import { FlowContextMenu } from './components/EditorContextMenu';

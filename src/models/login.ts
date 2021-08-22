@@ -1,12 +1,12 @@
-import {stringify} from 'querystring';
-import type {Effect, Reducer} from 'umi';
-import {history} from 'umi';
+import { stringify } from 'querystring';
+import type { Effect, Reducer } from 'umi';
+import { history } from 'umi';
 
-import {fakeAccountLogin} from '@/services/login';
-import {setAuthority} from '@/utils/authority';
-import {getPageQuery} from '@/utils/utils';
-import {message} from 'antd';
-import {waitTime} from "@/utils/myUtils";
+import { fakeAccountLogin } from '@/services/login';
+import { setAuthority } from '@/utils/authority';
+import { getPageQuery } from '@/utils/utils';
+import { message } from 'antd';
+import { waitTime } from '@/utils/myUtils';
 
 export type StateType = {
   status?: 'ok' | 'error';
@@ -14,6 +14,10 @@ export type StateType = {
   currentAuthority?: 'user' | 'guest' | 'admin';
 };
 
+export type LoginResponse = {
+  token: string;
+  user: object;
+};
 export type LoginModelType = {
   namespace: string;
   state: StateType;
@@ -26,6 +30,22 @@ export type LoginModelType = {
   };
 };
 
+const setGlobalInfo = (data: LoginResponse) => {
+  sessionStorage.setItem('token', data.token);
+  // @ts-ignore
+  global.token = data.token;
+  // @ts-ignore
+  global.user = data.user;
+};
+
+const clearGlobalInfo = () => {
+  sessionStorage.clear();
+  // @ts-ignore
+  global.token = undefined;
+  // @ts-ignore
+  global.user = undefined;
+};
+
 const Model: LoginModelType = {
   namespace: 'login',
 
@@ -34,7 +54,7 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    * login({payload}, {call, put}) {
+    login: function* ({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
@@ -46,10 +66,8 @@ const Model: LoginModelType = {
         const params = getPageQuery();
 
         message.success('🎉 🎉 🎉  登录成功！');
-        sessionStorage.setItem('token', response.data.token)
-
-        waitTime(100).then(r => {
-          let {redirect} = params as { redirect: string };
+        waitTime(100).then((r) => {
+          let { redirect } = params as { redirect: string };
           if (redirect) {
             const redirectUrlParams = new URL(redirect);
             if (redirectUrlParams.origin === urlParams.origin) {
@@ -66,15 +84,17 @@ const Model: LoginModelType = {
             }
           }
           history.replace(redirect || '/');
-        })
-      }else {
-        message.error(response.msg)
+          setGlobalInfo(response.data);
+        });
+      } else {
+        message.error(response.msg);
       }
     },
 
     logout() {
-      const {redirect} = getPageQuery();
+      const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
+      clearGlobalInfo();
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({
           pathname: '/user/login',
@@ -87,7 +107,7 @@ const Model: LoginModelType = {
   },
 
   reducers: {
-    changeLoginStatus(state, {payload}) {
+    changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
       return {
         ...state,

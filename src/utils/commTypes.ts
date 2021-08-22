@@ -1,5 +1,5 @@
-import {OptionsType} from "@ant-design/pro-table/es/components/ToolBar";
-import {SearchProps} from "antd/es/input";
+import { OptionsType } from '@ant-design/pro-table/es/components/ToolBar';
+import { SearchProps } from 'antd/es/input';
 
 export type OptionConfig = {
   density?: boolean;
@@ -12,7 +12,7 @@ export type OptionConfig = {
 // 审批流状态
 export type ApproveStatus = {
   status?: 'init' | 'process' | 'completed';
-}
+};
 
 export interface ActionType {
   reload: (resetPageIndex?: boolean) => void;

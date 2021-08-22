@@ -64,7 +64,7 @@ const tableData = [
 interface ErrorField {
   name: InternalNamePath;
   errors: string[];
-};
+}
 
 const FormAdvancedForm: FC<Record<string, any>> = () => {
   const [error, setError] = useState<ErrorField[]>([]);
@@ -150,7 +150,7 @@ const FormAdvancedForm: FC<Record<string, any>> = () => {
       title: '操作',
       key: 'action',
       valueType: 'option',
-      render: (_, record: TableFormDateType, index, action) => {
+      render: (_, record: TableFormDateType, index, action: any) => {
         return [
           <a
             key="eidit"
