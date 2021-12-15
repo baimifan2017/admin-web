@@ -1,12 +1,12 @@
-import { stringify } from 'querystring';
-import type { Effect, Reducer } from 'umi';
-import { history } from 'umi';
+import {stringify} from 'querystring';
+import type {Effect, Reducer} from 'umi';
+import {history} from 'umi';
 
-import { fakeAccountLogin,userLogin } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
-import { message } from 'antd';
-import { waitTime } from '@/utils/myUtils';
+import {userLogin} from '@/services/login';
+import {setAuthority} from '@/utils/authority';
+import {getPageQuery} from '@/utils/utils';
+import {message} from 'antd';
+import {waitTime} from '@/utils/myUtils';
 
 export type StateType = {
   status?: 'ok' | 'error';
@@ -54,7 +54,7 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    login: function* ({ payload }, { call, put }) {
+    login: function* ({payload}, {call, put}) {
       debugger
       const response = yield call(userLogin, payload);
       yield put({
@@ -67,8 +67,8 @@ const Model: LoginModelType = {
         const params = getPageQuery();
 
         message.success('🎉 🎉 🎉  登录成功！');
-        waitTime(100).then((r) => {
-          let { redirect } = params as { redirect: string };
+        waitTime(100).then(() => {
+          let {redirect} = params as { redirect: string };
           if (redirect) {
             const redirectUrlParams = new URL(redirect);
             if (redirectUrlParams.origin === urlParams.origin) {
@@ -93,7 +93,7 @@ const Model: LoginModelType = {
     },
 
     logout() {
-      const { redirect } = getPageQuery();
+      const {redirect} = getPageQuery();
       // Note: There may be security issues, please note
       clearGlobalInfo();
       if (window.location.pathname !== '/user/login' && !redirect) {
@@ -108,7 +108,7 @@ const Model: LoginModelType = {
   },
 
   reducers: {
-    changeLoginStatus(state, { payload }) {
+    changeLoginStatus(state, {payload}) {
       setAuthority(payload.currentAuthority);
       return {
         ...state,
