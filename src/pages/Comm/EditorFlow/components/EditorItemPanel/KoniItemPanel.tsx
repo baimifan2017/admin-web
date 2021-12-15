@@ -1,7 +1,7 @@
 import { Item, ItemPanel } from 'gg-editor';
 
-import { Card } from 'antd';
 import React from 'react';
+import { Card } from 'antd';
 import styles from './index.less';
 
 const KoniItemPanel = () => (

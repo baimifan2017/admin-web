@@ -4,7 +4,7 @@
 
 import React, { useRef } from 'react';
 // @ts-ignore
-import { ITree } from 'm-demo';
+import { ITree } from 'm-demo/src';
 import { Button, Popconfirm, Popover } from 'antd';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';

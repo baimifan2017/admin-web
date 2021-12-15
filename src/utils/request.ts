@@ -27,7 +27,7 @@ const errorHandler = (error: { response: Response }): Response => {
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
-    if (status == 401) {
+    if (status === 401) {
       history.push('/user/login');
     }
     notification.error({
@@ -62,9 +62,9 @@ const request = extend({
     token: getToken(),
   },
   timeout: 1000,
-  responseType: 'json',
-  requestType: 'json', // default
-  parseResponse: true, // default
+  // responseType: 'json',
+  // requestType: 'json', // default
+  // parseResponse: true, // default
 });
 
 export default request;

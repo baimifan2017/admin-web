@@ -86,7 +86,7 @@ export default [
                   //   name: 'dynamicPage', //  动态页面
                   //   icon: 'smile',
                   //   path: '/comm/dynamicPage',
-                  //   component: './Comm/DynamicPage',
+                  //   component: './Comm/PagesDesign',
                   // },
                   {
                     name: 'success',
@@ -126,6 +126,11 @@ export default [
                     name: 'supplier', // 供应商
                     component: './MainData/Supplier',
                   },
+                  {
+                    path: '/mainData/pagesDesign',
+                    name: 'pagesDesign', // 动态页面
+                    component: './MainData/PagesDesign',
+                  }
                 ],
               },
               {

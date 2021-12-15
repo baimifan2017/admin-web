@@ -34,8 +34,8 @@ class SimpleBarCode extends Component<BarcodeProps> {
     }
     // @ts-ignore
     Barcode(this.barcode, label, {
-      displayValue, //是否在下面显示具体文字
-      width, //线的宽度系数,1是正常,2是两倍,数越大越粗.
+      displayValue, // 是否在下面显示具体文字
+      width, // 线的宽度系数,1是正常,2是两倍,数越大越粗.
       height,// 条形码高度
       margin,
       // @ts-ignore

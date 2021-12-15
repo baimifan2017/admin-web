@@ -7,6 +7,22 @@ export type LoginParamsType = {
   captcha: string;
 };
 
+export type LoginParams = {
+  name: string;
+  password: string;
+  autoLogin: boolean;
+  type: string;
+}
+
+export async function userLogin(params: LoginParams) {
+  return request('/api/user/login', {
+    method: 'POST',
+    data: {
+      ...params
+    },
+  });
+}
+
 export async function fakeAccountLogin(params: LoginParamsType) {
   return request('/api/user/login', {
     method: 'POST',

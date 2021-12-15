@@ -54,7 +54,7 @@ export default {
   'menu.mainData.supplier': '供应商',
   'menu.mainData.userInfo': '用户信息',
   'menu.mainData.orgDesign': '组织机构设计',
-  'menu.mainData.pageDesign': '页面设计',
+  'menu.mainData.pagesDesign': '页面模板设计',
 
   'menu.basicConfig': '基础配置',
   'menu.basicConfig.flowModel': '流程模型',
