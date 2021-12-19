@@ -55,7 +55,6 @@ const Model: LoginModelType = {
 
   effects: {
     login: function* ({payload}, {call, put}) {
-      debugger
       const response = yield call(userLogin, payload);
       yield put({
         type: 'changeLoginStatus',

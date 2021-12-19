@@ -12,7 +12,7 @@ export type CurrentUser = {
     key: string;
     label: string;
   }[];
-  userid?: string;
+  id?: string;
   unreadCount?: number;
 };
 
@@ -61,7 +61,7 @@ const UserModel: UserModelType = {
     saveCurrentUser(state, action) {
       return {
         ...state,
-        currentUser: action.payload || {},
+        currentUser: action.payload.data || {},
       };
     },
     changeNotifyCount(

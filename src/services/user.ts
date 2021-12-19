@@ -4,8 +4,9 @@ export async function query(): Promise<any> {
   return request('/api/users');
 }
 
+// 获取当前用户
 export async function queryCurrent(): Promise<any> {
-  return request('/api/currentUser');
+  return request('/api/user/currentUser');
 }
 
 export async function queryNotices(): Promise<any> {
